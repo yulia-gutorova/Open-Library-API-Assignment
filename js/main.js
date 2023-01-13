@@ -3,7 +3,6 @@
 //------------------- getArrayOfAllCountries -----------------
 //************************************************************
 async function getArrayOfAllCountries(){
-  console.log("In function getArrayOfAllCountries");
 
   let allCountries = [];
 
@@ -32,7 +31,7 @@ async function getArrayOfAllCountries(){
 // Create an array with available countries when DOM content loaded
 //************************************************************
 document.addEventListener("DOMContentLoaded", async function() {
-  getArrayOfAllCountries()
+  //getArrayOfAllCountries()
   allCountries = await getArrayOfAllCountries();
 });
 //------------------------------------------------------------
@@ -44,7 +43,6 @@ let btnsArrayIsHoliday = [menuBtns[1], menuBtns[6]];
 let btnsArrayPublicHolidays = [menuBtns[2], menuBtns[7]];
 let btnsArrayGetBorderCountries = [menuBtns[3], menuBtns[8]];
 
-console.log(menuBtns);
 const divElement = document.getElementById('contentDiv');
 const BASE_URL = "https://date.nager.at/api/v3/";
 
@@ -56,7 +54,6 @@ const BASE_URL = "https://date.nager.at/api/v3/";
 
 btnsArrayGetAllCountries.forEach(btn=>{
   btn.addEventListener('click', async ()=>{
-    console.log("Get all available countries");
     let current_base_url = BASE_URL + "AvailableCountries"
     
     divElement.innerHTML = "";
@@ -96,7 +93,6 @@ btnsArrayGetAllCountries.forEach(btn=>{
 
 btnsArrayIsHoliday.forEach(btn=>{
   btn.addEventListener('click', async ()=>{
-    console.log("Is today a public holiday");
   
     divElement.innerHTML = "";
   
@@ -163,7 +159,6 @@ btnsArrayIsHoliday.forEach(btn=>{
 
 btnsArrayPublicHolidays.forEach(btn=>{
   btn.addEventListener('click', async ()=>{
-    console.log("Is today a public holiday");
   
     divElement.innerHTML = "";
   
@@ -177,7 +172,6 @@ btnsArrayPublicHolidays.forEach(btn=>{
     
     //Create a  dropdown list with all available countries
     for (let country of allCountries){
-      console.log(country);
       select.innerHTML += dropdownOptions(country)
     }
   
@@ -226,18 +220,15 @@ btnsArrayPublicHolidays.forEach(btn=>{
 //************************************************************
 btnsArrayGetBorderCountries.forEach(btn=>{
   btn.addEventListener('click', async ()=>{
-    console.log("Is today a public holiday");
   
     divElement.innerHTML = "";
-  
+
     //Invoke function to choose counry and show info
     divElement.innerHTML = countryInfo();
   
     let $form = document.querySelector("#input-form");
     let div = document.querySelector(".country-info");
     let select = document.getElementById("country");
-  
-    let borderCoutnries = [];
   
     //Create a dropdown meny
     for (let country of allCountries){
@@ -248,11 +239,12 @@ btnsArrayGetBorderCountries.forEach(btn=>{
     $form.addEventListener('submit', async function(event) {
       event.preventDefault();
       $(".country-info").hide();
-  
+      
       //Get selected country and extract a country code
       let country = select.options[select.selectedIndex].value;
       let myArray =country.split("=")
       let countryCode = myArray[1].trim().toLowerCase();
+      let borderCoutnries = [];
   
       //Define request URL
       let current_base_url = BASE_URL + "CountryInfo/" + countryCode;
@@ -262,20 +254,23 @@ btnsArrayGetBorderCountries.forEach(btn=>{
         const res = await fetch(current_base_url);
         if (res.ok === false) {
             throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
-        }     
+        }  
+
         const data = await res.json();
         
+        if (data.borders.length == 0){
+          borderCoutnriesToString = "The country has no land borders";
+        }else{
         //Creare an array with border countries
         for (let d of data.borders){
           borderCoutnries.push(d["commonName"]);
         }
   
         //Array to string
-        let borderCoutnriesToString = borderCoutnries.join(', ');
-  
+        borderCoutnriesToString = borderCoutnries.join(', ');       
+      }
         //Show country info  
         div.innerHTML = divCountryInfo(data, borderCoutnriesToString);
-       
         $(".country-info").show(1000);
       }
       catch (error) 
