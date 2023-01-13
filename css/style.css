@@ -17,6 +17,7 @@ input{
   height: 32px;
   background-color: white;
 } 
+/* --------------------------------------------- */
 
 /* Div element to show page content */
 #contentDiv{
@@ -43,7 +44,7 @@ input{
  
 } 
 
-
+/* dropdown-menu */
 .dropdown-menu{
   position: relative;
   align-items: flex-start;
@@ -51,6 +52,7 @@ input{
   display: none;
 }
 
+/* dropdown-menu content*/
 .dropdown-content {
   display: none;
   position: absolute;  
@@ -62,6 +64,7 @@ input{
   left: -110px;
 }
 
+/* dropdown-menu content buttons*/
 .dropdown-content .a {
   color: black;
   padding: 12px 16px;
@@ -71,9 +74,12 @@ input{
   width: 160px;
 }
 
-.dropdown-menu:hover .dropdown-content {display: block;}
+/* show dropdown-menu content when hover over hamgurger menu*/
+.dropdown-menu:hover .dropdown-content {
+  display: block;
+}
 
-/* Menu Buttons */
+/* menu Buttons */
 .menubtn {
     background-color: rgb(81, 78, 78);
     color: white;
@@ -90,9 +96,11 @@ input{
     color:black;
   } 
    
+  /* humberger menu*/
  .dropbtn{
   height: 50px;
  } 
+
   /* Footer */
   footer {
     background-color: rgb(81, 78, 78);
@@ -106,6 +114,7 @@ input{
     justify-content: center;
     align-items: center;
 }
+/* ----------------------------------------------*/
 
 /* Input form */
 #input-form{
