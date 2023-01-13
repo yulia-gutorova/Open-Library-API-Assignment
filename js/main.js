@@ -26,7 +26,7 @@ async function getArrayOfAllCountries(){
       console.log(error)
   }
 }
-//------------------------------------------------------------
+//-----------------------------------------------------------------
 
 //************************************************************ 
 // Create an array with available countries when DOM content loaded
