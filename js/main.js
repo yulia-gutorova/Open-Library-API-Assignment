@@ -1,161 +1,41 @@
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
 
-//----------------------- HTML elements -----------------------
-const isPublicHolidayInputForm = function() { 
-  return ` 
-  <form id="input-form""> 
-      <h2>Choose country</h2>
-
-      <div class="input-field">
-        <label for="country">Choose a country:</label>
-        <select name="country" id="country">
-
-        </select> 
-      </div>
-
-      <p id="string-content"></p>
-
-      <hr>
-    </div>
-    <div class="submit-form">
-      <button class="submit">Find</button>
-    </div>
-  </form>
-  `
-}
-
-
-const publicHolidaysInYear = function(data) { 
-  return ` 
-  <form id="input-form""> 
-      <h2>Enter year and choose a country</h2>
-
-      <div class="input-field holidayYear">  
-        <div>
-          <label for="year">Input year:</label>
-          <input id="year" type="text" class="input-field" required> 
-        </div>
-        <div>
-          <label for="country">Choose a country:</label>
-          <select name="country" id="country">
-
-          </select> 
-        </div>
-      </div>
-        
-      <div id="holiday-content">
-        <ul id='date-holiday'> </ul> 
-      </div>
-      <hr>
-    </div>
-    <div class="submit-form">
-      <button class="submit">Find</button>
-    </div>
-  </form>
-  `
-}
-
-/* const card = function(name, ul) { 
-  return `  
-  <div class="single-post-wrapper">
-    <div class="single-post">
-      <h2 class="card-title">${name}</h2>
-      <div class="content">        
-        <ul id='books-content'></ul>         
-      </div>
-      <hr>
-      <div class="card-action">
-        <button class="show-content menubtn">Get hint</button>         
-      </div>
-    </div>
-  </div> 
-  `
-} */
-
-const availableCountries = function(name, ul) { 
-  return `  
-  <div class="single-post-wrapper">
-    <div class="single-post">
-      <h2 class="card-title">All available countries</h2>
-      <div class="content">        
-        <ul id='countries'></ul>         
-      </div>
-    </div>
-  </div> 
-  `
-}
-
-const lis = function(liText) { 
-  return `  
-   <li>${liText}</li>
-  `
-}
-
-const dropdownOptions = function(country) { 
-  return ` 
-    <option value="${country}">${country}</option>
-  `
-}
-
-const divCountryInfo = function(data){
-
-}
-
-/* async function getArrayOfAllCountries(){
+//************************************************************ 
+//------------------- getArrayOfAllCountries -----------------
+//************************************************************
+async function getArrayOfAllCountries(){
   console.log("In function getArrayOfAllCountries");
+
   let allCountries = [];
 
   try {
     const res = await fetch("https://date.nager.at/api/v3/AvailableCountries");
+
     if (res.ok === false) {
         throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
     }     
     const data = await res.json();
 
-    
     for (let country of data){   
         let liText = country.name  + " = " + country.countryCode;
         allCountries.push(liText);   
     } 
-    console.log("All countries in function");
-    console.log(allCountries);
     return allCountries;     
   }
   catch (error) 
   {
       console.log(error)
   }
-
-} */
-
-const countryInfo = function(data) { 
-  return ` 
-  <form id="input-form""> 
-      <h2>Choose country</h2>
-
-      <div class="input-field">
-        <label for="country">Choose a country:</label>
-        <select name="country" id="country">
-
-        </select> 
-      </div>
-      <div class="country-info">
-            <h2>Angola</h2>
-            <h4>officialName: Principality of Andorra</h4>
-            <h5>countryCode</h5>
-            <h5>Region</h5>
-            <p>Borders</p>
-      </div>
-      <hr>
-    </div>
-    <div class="submit-form">
-      <button class="submit">Find</button>
-    </div>
-  </form>
-  `
 }
-//-------------------------------------------------------------
+//------------------------------------------------------------
+
+//************************************************************ 
+// Create an array with available countries when  DOM content loaded
+//************************************************************
+document.addEventListener("DOMContentLoaded", async function() {
+  getArrayOfAllCountries()
+  allCountries = await getArrayOfAllCountries();
+});
+//------------------------------------------------------------
 
 const menuBtns =document.getElementsByClassName("menubtn");
 console.log(menuBtns);
@@ -163,17 +43,14 @@ const divElement = document.getElementById('contentDiv');
 const BASE_URL = "https://date.nager.at/api/v3/";
 
 
-/* for (let button of menuBtns){
-  button.addEventListener('click', actionFunction);
-} */
-
 //************************************************************ 
-//------------------- Get all available countries ------------
+//----------------- Get all available countries --------------
 //************************************************************
 
 menuBtns[0].addEventListener('click', async ()=>{
   console.log("Get all available countries");
   let current_base_url = BASE_URL + "AvailableCountries"
+  
   divElement.innerHTML = "";
 
   try {
@@ -184,19 +61,20 @@ menuBtns[0].addEventListener('click', async ()=>{
     const data = await res.json();
 
     divElement.innerHTML = availableCountries();
-
+    
     let ul = document.getElementById("countries");
 
     for (let country of data){   
         let liText = country.name  + " = " + country.countryCode;
         ul.innerHTML += lis(liText);     
-    }     
+    } 
+    
+    $(".content").show(1000)
   }
   catch (error) 
   {
       console.log(error)
   }
-
   })
 //-------------------------------------------------------------
 
@@ -206,58 +84,47 @@ menuBtns[0].addEventListener('click', async ()=>{
 
 menuBtns[1].addEventListener('click', async ()=>{
   console.log("Is today a public holiday");
-  let allCountries = [];
-
-  try {
-    const res = await fetch("https://date.nager.at/api/v3/AvailableCountries");
-    if (res.ok === false) {
-        throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
-    }     
-    const data = await res.json();
-
-    
-    for (let country of data){   
-        let liText = country.name  + " = " + country.countryCode;
-        allCountries.push(liText);   
-    }      
-  }
-  catch (error) 
-  {
-      console.log(error)
-  }
-
 
   divElement.innerHTML = "";
+
+  //Invoke a function to choose country
   divElement.innerHTML = isPublicHolidayInputForm();
 
   let $form = document.querySelector("#input-form");
- // let input = document.getElementById("code");
   let p = document.getElementById("string-content");
   let select = document.getElementById("country");
- 
-  console.log("select");
-  console.log(select);
 
+  //Create a  dropdown list with all available countries
   for (let country of allCountries){
-    console.log(country);
     select.innerHTML += dropdownOptions(country)
   }
 
+  // Event listenet for submit form
   $form.addEventListener('submit', async function(event) {
     event.preventDefault();
+
+    //Get selected dropdown option and extract a coutry code
     let country = select.options[select.selectedIndex].value;
     let myArray =country.split("=")
     let countryCode = myArray[1].trim().toLowerCase();
 
-     let current_base_url = BASE_URL + "IsTodayPublicHoliday/" + countryCode;
-    const res = await fetch(current_base_url);
+    //Define request URL 
+    let current_base_url = BASE_URL + "IsTodayPublicHoliday/" + countryCode;
 
-    switch (res.status){
+    try {
+      const res = await fetch(current_base_url);
+      if (res.ok === false) {
+          throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
+      }
+      
+    //Send text in p-element depends on responce code
+    switch (res.status)
+    {
       case 200:
-        p.innerText = "Congratulations! Today is a public holiday!"
+        p.innerText = "Congratulations! Today is a public holiday in this country!"
         break;
       case 204:
-        p.innerText = "Sorry! Today is not a public holiday!"
+        p.innerText = "Sorry! Today is not a public holiday in this country!"
         break;
       case 400:
         p.innerText = "Sorry! Validation failure!"
@@ -265,13 +132,14 @@ menuBtns[1].addEventListener('click', async ()=>{
       case 404:
         p.innerText = "Sorry! CountryCode is unknown!"
         break;
+      }      
     }
- 
+    catch (error) 
+    {
+        console.log(error)
+    }
   }) 
-
 }) 
-
-
 
 //************************************************************ 
 //------------------- Public holidays in Year ------------
@@ -279,29 +147,10 @@ menuBtns[1].addEventListener('click', async ()=>{
 
 menuBtns[2].addEventListener('click', async ()=>{
   console.log("Is today a public holiday");
-  //------------------------------------------------------
-   let allCountries = [];
-
-  try {
-    const res = await fetch("https://date.nager.at/api/v3/AvailableCountries");
-    if (res.ok === false) {
-        throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
-    }     
-    const data = await res.json();
-
-    
-    for (let country of data){   
-        let liText = country.name  + " = " + country.countryCode;
-        allCountries.push(liText);   
-    }      
-  }
-  catch (error) 
-  {
-      console.log(error)
-  } 
-//------------------------------------------------------
 
   divElement.innerHTML = "";
+
+  //Invoke a function to choose a country and a year
   divElement.innerHTML = publicHolidaysInYear();
 
   let $form = document.querySelector("#input-form");
@@ -309,56 +158,46 @@ menuBtns[2].addEventListener('click', async ()=>{
   let select = document.getElementById("country");
   let ul = document.getElementById("date-holiday");
   
-
+  //Create a  dropdown list with all available countries
   for (let country of allCountries){
     console.log(country);
     select.innerHTML += dropdownOptions(country)
   }
 
-
+  //Event listener for submit form
   $form.addEventListener('submit', async function(event) {
     event.preventDefault();
+    $("#holiday-content").hide(); 
+    ul.innerHTML = "";
 
+  //Get selected dropdown option and extract a coutry code
+  let country = select.options[select.selectedIndex].value;
+  let myArray =country.split("=")
+  let countryCode = myArray[1].trim().toLowerCase();
+  let year = input.value;
 
-    console.log("form event listener");
-    let country = select.options[select.selectedIndex].value;
-    console.log("Country code");
-    console.log(country);
-    let myArray =country.split("=")
-    console.log(myArray);
-    let countryCode = myArray[1].trim().toLowerCase();
-    console.log(countryCode);
-    let year = input.value;
-    console.log(year);
-
-   let current_base_url = BASE_URL + "PublicHolidays/" + year +"/" + countryCode;
-    console.log(current_base_url);
-
-
+  //Define request URL 
+  let current_base_url = BASE_URL + "PublicHolidays/" + year +"/" + countryCode;
+  
     try {
       const res = await fetch(current_base_url);
       if (res.ok === false) {
           throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
       }     
       const data = await res.json();
-      console.log(data);
 
+      //Create a list with dates and hilidays
       for (d of data){
-        console.log(d["date"]);
         let liText = d["date"]  + " - " + d["name"];
-        console.log(liText);
         ul.innerHTML += lis(liText); 
       }  
-           
+       $("#holiday-content").show(1000);         
     }
     catch (error) 
     {
         console.log(error)
     }
-
-  $(".submit").hide();
   })  
-
 }) 
 
 
@@ -368,55 +207,67 @@ menuBtns[2].addEventListener('click', async ()=>{
 
 menuBtns[3].addEventListener('click', async ()=>{
   console.log("Is today a public holiday");
-  let allCountries = [];
-
-  try {
-    const res = await fetch("https://date.nager.at/api/v3/AvailableCountries");
-    if (res.ok === false) {
-        throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
-    }     
-    const data = await res.json();
-
-    
-    for (let country of data){   
-        let liText = country.name  + " = " + country.countryCode;
-        allCountries.push(liText);   
-    }      
-  }
-  catch (error) 
-  {
-      console.log(error)
-  }
-
 
   divElement.innerHTML = "";
+
+  //Invoke function to choose counry and show info
   divElement.innerHTML = countryInfo();
 
   let $form = document.querySelector("#input-form");
- // let input = document.getElementById("code");
   let div = document.querySelector(".country-info");
   let select = document.getElementById("country");
- 
-  console.log("select");
-  console.log(select);
 
+  let borderCoutnries = [];
+
+  //Create a dropdown meny
   for (let country of allCountries){
-    console.log(country);
     select.innerHTML += dropdownOptions(country)
   }
 
+  //Listener for submit form
   $form.addEventListener('submit', async function(event) {
     event.preventDefault();
+    $(".country-info").hide();
+
+    //Get selected country and extract a country code
     let country = select.options[select.selectedIndex].value;
     let myArray =country.split("=")
     let countryCode = myArray[1].trim().toLowerCase();
 
-     let current_base_url = BASE_URL + "CountryInfo/" + countryCode;
-    const res = await fetch(current_base_url);
-    const data = await res.json();
+    //Define request URL
+    let current_base_url = BASE_URL + "CountryInfo/" + countryCode;
 
-    console.log(data);
-    
+
+    try {
+      const res = await fetch(current_base_url);
+      if (res.ok === false) {
+          throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
+      }     
+      const data = await res.json();
+      
+    //Creare an array with border countries
+    for (let d of data.borders){
+      borderCoutnries.push(d["commonName"]);
+    }
+
+    //Array to string
+    let borderCoutnriesToString = borderCoutnries.join(', ');
+
+    //Show country info  
+    div.innerHTML = divCountryInfo(data, borderCoutnriesToString);
+     
+    $(".country-info").show(1000);
+    }
+    catch (error) 
+    {
+        console.log(error)
+    }
+
+
+
+
+
+
   }) 
  
 
