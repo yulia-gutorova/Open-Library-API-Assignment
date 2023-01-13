@@ -122,8 +122,10 @@ btnsArrayIsHoliday.forEach(btn=>{
   
       try 
       {
+
         const res = await fetch(current_base_url);
-        if (res.ok === false) {
+
+        if (res.ok === false) {         
             throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
         }
         
@@ -146,7 +148,7 @@ btnsArrayIsHoliday.forEach(btn=>{
       }
       catch (error) 
       {
-          console.log(error)
+          //console.log(error)
       }
     }) 
   }) 
@@ -207,7 +209,9 @@ btnsArrayPublicHolidays.forEach(btn=>{
       }
       catch (error) 
       {
-          console.log(error)
+         ul.innerHTML = lis("Sorry! Validation failure!");
+         $("#holiday-content").show(1000);
+        //console.log(error)
       }
     })  
   }) 

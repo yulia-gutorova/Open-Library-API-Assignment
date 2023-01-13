@@ -42,11 +42,11 @@ const isPublicHolidayInputForm = function() {
 const publicHolidaysInYear = function(data) { 
   return ` 
   <form id="input-form""> 
-      <h2>Enter year and choose a country to get a list of holidais:</h2> 
+      <h2>Enter a year and choose a country to get a list of holidais:</h2> 
       <div class="input-field holidayYear">  
         <div>
           <label for="year">Input year:</label>
-          <input id="year" type="text" class="input-field" required> 
+          <input id="year" type="number" class="input-field" required> 
         </div>
         <div>
           <label for="country">Choose a country:</label>
