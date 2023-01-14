@@ -46,7 +46,7 @@ const publicHolidaysInYear = function(data) {
       <div class="input-field holidayYear">  
         <div>
           <label for="year">Input year:</label>
-          <input id="year" type="number" class="input-field" required> 
+          <input id="year" type="number" class="input-field" value=2023 required> 
         </div>
         <div>
           <label for="country">Choose a country:</label>
