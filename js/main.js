@@ -3,7 +3,6 @@
 //------------------- getArrayOfAllCountries -----------------
 //************************************************************
 async function getArrayOfAllCountries(){
-
   let allCountries = [];
 
   try {
@@ -35,6 +34,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   allCountries = await getArrayOfAllCountries();
 });
 //------------------------------------------------------------
+
 
 const menuBtns =document.getElementsByClassName("menubtn");
 
@@ -122,7 +122,6 @@ btnsArrayIsHoliday.forEach(btn=>{
   
       try 
       {
-
         const res = await fetch(current_base_url);
 
         if (res.ok === false) {         
@@ -148,7 +147,7 @@ btnsArrayIsHoliday.forEach(btn=>{
       }
       catch (error) 
       {
-          //console.log(error)
+          console.log(error)
       }
     }) 
   }) 
@@ -209,7 +208,7 @@ btnsArrayPublicHolidays.forEach(btn=>{
       }
       catch (error) 
       {
-         ul.innerHTML = lis("Sorry! Validation failure!");
+         ul.innerHTML = lis("Sorry! Validation failure! Try to choose a later year.");
          $("#holiday-content").show(1000);
         //console.log(error)
       }
