@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 const menuBtns =document.getElementsByClassName("menubtn");
 
+//Create arrays of buttons with the same functions from main and dropdown mwnu
 let btnsArrayGetAllCountries = [menuBtns[0], menuBtns[5]];
 let btnsArrayIsHoliday = [menuBtns[1], menuBtns[6]];
 let btnsArrayPublicHolidays = [menuBtns[2], menuBtns[7]];
@@ -65,16 +66,16 @@ btnsArrayGetAllCountries.forEach(btn=>{
           throw new Error(`HTTP error code: ${res.status}, HTTP error message: ${response.statusText}`);
       }     
       const data = await res.json();
-  
+      //Invoke function availableCountries() and add HTML-content into divElement
       divElement.innerHTML = availableCountries();
       
       let ul = document.getElementById("countries");
-  
+      //Create li-elements and add them into ul-element
       for (let country of data){   
           let liText = country.name  + " = " + country.countryCode;
           ul.innerHTML += lis(liText);     
       } 
-  
+      //Show HTML-element with class .content
       $(".content").show(1000)
     }
     catch (error) 
@@ -132,6 +133,7 @@ btnsArrayIsHoliday.forEach(btn=>{
         switch (res.status)
         {
           case 200:
+            //Add text into p-element
             p.innerText = "Congratulations! Today is a public holiday in this country!"
             break;
           case 204:
@@ -203,7 +205,8 @@ btnsArrayPublicHolidays.forEach(btn=>{
         for (d of data){
           let liText = d["date"]  + " - " + d["name"];
           ul.innerHTML += lis(liText); 
-        }  
+        } 
+        //Show content 
          $("#holiday-content").show(1000);         
       }
       catch (error) 
